@@ -18,6 +18,9 @@ namespace :load do
     # Rbenv and RVM integration
     set :rbenv_map_bins, fetch(:rbenv_map_bins).to_a.concat(%w(sneakers))
     set :rvm_map_bins, fetch(:rvm_map_bins).to_a.concat(%w(sneakers))
+    # systemd integration
+    set :service_unit_name, "sneakers-#{fetch(:stage)}.service"
+    set :upstart_service_name, "sneakers"
   end
 end
 
