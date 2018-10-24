@@ -18,6 +18,9 @@ namespace :load do
     # Rbenv and RVM integration
     set :rbenv_map_bins, fetch(:rbenv_map_bins).to_a.concat(%w(sneakers))
     set :rvm_map_bins, fetch(:rvm_map_bins).to_a.concat(%w(sneakers))
+    # systemd integration
+    set :service_unit_name, "sneakers-#{fetch(:stage)}.service"
+    set :upstart_service_name, "sneakers"
   end
 end
 
@@ -45,7 +48,7 @@ namespace :sneakers do
       sneakers_switch_user(role) do
         if test("[ -d #{current_path} ]")
           sneakers_each_process_with_index(true) do |pid_file, idx|
-            if pid_file_exists?(pid_file) && sneakers_process_exists?(pid_file)
+            if sneakers_pid_file_exists?(pid_file) && sneakers_process_exists?(pid_file)
               quiet_sneakers(pid_file)
             end
           end
